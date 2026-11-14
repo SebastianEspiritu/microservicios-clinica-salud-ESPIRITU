@@ -1,5 +1,6 @@
 package com.tecsup.model;
 
+import com.tecsup.dto.CategoriaDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,8 +16,12 @@ public class Producto {
 
     private Integer stock;
 
-    // Solo se guarda el id: la categoría vive en otro microservicio (otra BD)
+    // Solo se guarda el id: la categoría vive en categoria-service
     private Long categoriaId;
+
+    // No se guarda en la BD: se completa con Feign al consultar
+    @Transient
+    private CategoriaDTO categoria;
 
     public Producto() {
     }
@@ -59,5 +64,13 @@ public class Producto {
 
     public void setCategoriaId(Long categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public CategoriaDTO getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaDTO categoria) {
+        this.categoria = categoria;
     }
 }

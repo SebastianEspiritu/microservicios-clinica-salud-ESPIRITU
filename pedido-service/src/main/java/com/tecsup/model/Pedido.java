@@ -3,32 +3,70 @@ package com.tecsup.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPedido;
+    private Long id;
+
+    // Solo se guardan los identificadores: los datos viven en cliente-service y producto-service
+    @Column(nullable = false)
+    private Long clienteId;
+
+    @Column(nullable = false)
+    private Long productoId;
+
+    @Column(nullable = false)
+    private Integer cantidad;
 
     private LocalDate fecha;
 
-    private Long idCliente;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private EstadoPedido estado;
 
-    private Double total;
-
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<DetallePedido> detalles;
-
-    // getters y setters
-
-    public Long getIdPedido() {
-        return idPedido;
+    @PrePersist
+    public void prePersist() {
+        if (fecha == null) {
+            fecha = LocalDate.now();
+        }
+        if (estado == null) {
+            estado = EstadoPedido.PENDIENTE;
+        }
     }
 
-    public void setIdPedido(Long idPedido) {
-        this.idPedido = idPedido;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public Long getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(Long productoId) {
+        this.productoId = productoId;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
     public LocalDate getFecha() {
@@ -39,27 +77,11 @@ public class Pedido {
         this.fecha = fecha;
     }
 
-    public Long getIdCliente() {
-        return idCliente;
+    public EstadoPedido getEstado() {
+        return estado;
     }
 
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
-    }
-
-    public List<DetallePedido> getDetalles() {
-        return detalles;
-    }
-
-    public void setDetalles(List<DetallePedido> detalles) {
-        this.detalles = detalles;
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
     }
 }

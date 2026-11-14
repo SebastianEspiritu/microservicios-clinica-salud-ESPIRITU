@@ -10,13 +10,14 @@ public class ClienteDTO {
     @NotBlank(message = "Los apellidos son obligatorios")
     private String apellidos;
 
+    @NotBlank(message = "La dirección es obligatoria")
     private String direccion;
 
     @Pattern(regexp = "\\d{9}", message = "El teléfono debe tener 9 dígitos")
     private String telefono;
 
     @NotBlank(message = "El DNI es obligatorio")
-    @Pattern(regexp = "\\d{8}", message = "El DNI debe tener 8 dígitos")
+    @Pattern(regexp = "\\d{8}", message = "El DNI debe contener exactamente 8 dígitos")
     private String nroDni;
 
     @NotBlank(message = "El estado es obligatorio")

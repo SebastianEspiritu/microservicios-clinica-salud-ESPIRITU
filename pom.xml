@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  POM agregador: solo sirve para que IntelliJ importe los 7 microservicios
+  POM agregador: solo sirve para que IntelliJ importe todos los proyectos
   de una sola vez al abrir la carpeta "microservicios".
   Cada microservicio sigue siendo un proyecto Spring Boot independiente.
 -->
@@ -15,6 +15,7 @@
     <name>microservicios</name>
 
     <modules>
+        <module>eureka-server</module>
         <module>cliente-service</module>
         <module>categoria-service</module>
         <module>producto-service</module>

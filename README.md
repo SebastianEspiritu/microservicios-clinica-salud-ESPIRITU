@@ -1,75 +1,100 @@
-# Laboratorio 11 – Creación de Microservicios
+# Laboratorios 11 y 12 – Microservicios con Spring Boot
 
 **Curso:** Desarrollo de Aplicaciones Web Avanzado – Tecsup
-**Alumna:** Kiara Paola Alburqueque Arzapalo
+**Alumno:** Sebastián Espíritu
 
-Spring Boot 4.1.0 · Java 25 · Maven · MySQL · Spring Data JPA · Bean Validation
+- **Lab 11 – Creación de Microservicios:** tienda (cliente, categoría, producto, pedido) y la actividad Clínica "Salud Integral".
+- **Lab 12 – Comunicación entre Servicios:** Eureka Server y OpenFeign sobre los servicios de la tienda.
 
-## Microservicios
+## Proyectos
 
-| Microservicio | Puerto | Base de datos | Endpoint base |
-|---|---|---|---|
-| cliente-service | 8081 | bd_cliente | `/api/clientes` |
-| categoria-service | 8082 (dev) / 9092 (prod) | bd_categoria_dev / bd_categoria | `/api/categorias` |
-| producto-service | 8083 | bd_producto | `/api/productos` |
-| pedido-service | 8084 | bd_pedido | `/api/pedidos` |
-| **paciente-service** | 8085 | bd_paciente | `/api/pacientes` |
-| **medico-service** | 8086 | bd_medico | `/api/especialidades`, `/api/medicos`, `/api/medicos/{id}/horarios` |
-| **cita-service** | 8087 | bd_cita | `/api/citas` |
+| Proyecto | Puerto | Base de datos | Tecnología | Endpoint base |
+|---|---|---|---|---|
+| **eureka-server** | 8761 | – | Boot 3.5 + Eureka Server | dashboard `http://localhost:8761` |
+| cliente-service | 8081 | bd_cliente_dev | Boot 3.5 + Eureka Client | `/api/clientes` |
+| categoria-service | 8082 | bd_categoria_dev | Boot 3.5 + Eureka Client | `/api/categorias` |
+| producto-service | 8083 | bd_producto_dev | Boot 3.5 + Eureka + **OpenFeign** | `/api/productos` |
+| pedido-service | 8084 | bd_pedido_dev | Boot 3.5 + Eureka + **OpenFeign** | `/api/pedidos` |
+| paciente-service | 8085 | bd_paciente | Boot 4.1 | `/api/pacientes` |
+| medico-service | 8086 | bd_medico | Boot 4.1 | `/api/especialidades`, `/api/medicos` |
+| cita-service | 8087 | bd_cita | Boot 4.1 + RestClient | `/api/citas` |
 
-Cada microservicio tiene la estructura `controller`, `model`, `dto`, `exception`, `repository`, `services` (paquete `com.tecsup`).
+Los servicios de la tienda usan **Spring Boot 3.5.15 + Spring Cloud 2025.0.0**, como pide la guía del Lab 12, porque Spring Cloud 2025.0 no es compatible con Spring Boot 4. Los servicios de la clínica siguen en Spring Boot 4.1.0 (Lab 11). Todos se compilan con Java 25.
 
-## Cómo ejecutarlo
+Cada servicio de la tienda tiene los perfiles `dev` (activo) y `prod` en `application-dev.yml` y `application-prod.yml`.
 
-1. Iniciar MySQL (XAMPP) con usuario `root` sin contraseña. Si tienes contraseña, cámbiala en cada `application.yml`.
-2. Ejecutar `sql/01_crear_bases_de_datos.sql`. Opcional: las URLs ya incluyen `createDatabaseIfNotExist=true`, y las tablas las crea JPA.
-3. En IntelliJ: **File → Open → carpeta `microservicios`**. El `pom.xml` raíz importa los 7 proyectos Maven.
-4. Configurar **JDK 25** en *File → Project Structure → SDK*.
-5. Ejecutar la clase `*ServiceApplication` de cada servicio.
-   - En la clínica, levantar **paciente-service** y **medico-service** antes de **cita-service**.
-6. Importar en Postman `postman/Lab11-Microservicios.postman_collection.json` y ejecutar las carpetas en orden.
+## Cómo ejecutar
 
-## Parte guiada
+1. Iniciar MySQL (XAMPP), con usuario `root` sin contraseña. Las bases de datos se crean solas.
+2. Abrir la carpeta en IntelliJ y recargar Maven (pestaña **m** → 🔄).
+3. Ejecutar en este orden:
+   1. `EurekaServerApplication`. Esperar a que abra `http://localhost:8761`.
+   2. `CategoriaServiceApplication`, `ClienteServiceApplication`, `ProductoServiceApplication` y `PedidoServiceApplication`.
+   3. (Clínica, opcional) `PacienteServiceApplication`, `MedicoServiceApplication` y `CitaServiceApplication`.
+4. En `http://localhost:8761` deben aparecer **CATEGORIA-SERVICE, CLIENTE-SERVICE, PRODUCTO-SERVICE y PEDIDO-SERVICE**. Al registrarse pueden tardar unos 30 segundos.
+5. Importar en Postman `postman/Lab11-Microservicios.postman_collection.json` y ejecutar la carpeta **Lab 12** en orden.
 
-- **categoria-service**: código de la guía y perfiles `application.yml` / `application-dev.yml` / `application-prod.yml`. El perfil activo es `dev`.
-- **cliente-service** y **producto-service**: siguen el mismo patrón de Categoría (DTO con validaciones, `GlobalExceptionHandler` y `ResourceNotFoundException`).
-- **pedido-service**: código de la guía.
-  - Se añadió `@JsonIgnore` en `DetallePedido.pedido` para evitar la recursión infinita al convertir a JSON.
-- Todos usan `application.yml`; se eliminó `application.properties`.
+## Lab 12 – Comunicación entre servicios
 
-## Actividad – Clínica "Salud Integral"
+### Eureka
+`eureka-server` (`@EnableEurekaServer`) es el registro de servicios. Cada servicio de la tienda tiene `@EnableDiscoveryClient` y en su YAML se registra en `http://localhost:8761/eureka`.
 
-**paciente-service**
-- CRUD completo de pacientes.
-- Valida el DNI (8 dígitos y único), el sexo (M/F), el correo y la fecha de nacimiento.
+### producto-service → categoria-service (OpenFeign)
+- `CategoriaClient` es un `@FeignClient(name = "categoria-service")`: usa el **nombre registrado en Eureka**, no la URL.
+- `Producto.categoria` es `@Transient`: no se guarda en la BD, se completa al consultar.
+- Al registrar un producto se valida que la categoría exista. Si no existe, responde 404.
 
-**medico-service**
-- CRUD de especialidades y médicos (el CMP es único).
-- Registro de horarios por día (`LUNES`…`DOMINGO`), con control de horarios que se cruzan.
-- Al eliminar un médico se borran sus horarios en cascada.
+### pedido-service → cliente-service y producto-service (OpenFeign)
+- El pedido guarda **solo** `clienteId`, `productoId`, `cantidad`, `fecha` y `estado`. No duplica datos ni tiene relaciones JPA con otros servicios.
+- Usa los clientes Feign `ClienteClient` y `ProductoClient`.
+- `GET /api/pedidos/{id}`:
+  1. Busca el pedido en su BD.
+  2. Obtiene el cliente con Feign.
+  3. Obtiene el producto con Feign.
+  4. Devuelve la respuesta completa, incluido el `total` (precio × cantidad).
+- Al registrar valida que el cliente exista y esté ACTIVO, que el producto exista y que haya stock suficiente.
+- **No se elimina** un pedido. Sus estados son `PENDIENTE → ATENDIDO | ANULADO`:
+  - `PUT /api/pedidos/{id}/estado` cambia el estado.
+  - `PUT /api/pedidos/{id}/anular` anula el pedido.
 
-**cita-service**
-- Registrar, listar (con filtros `?idPaciente=`, `?idMedico=` y `?estado=`), buscar por ID, actualizar el estado y cancelar.
-- **Comunicación entre microservicios** con `RestClient` (paquete `client`). Al registrar una cita:
-  1. Consulta a **paciente-service** que el paciente exista y esté activo.
-  2. Consulta a **medico-service** que el médico exista y esté activo.
-  3. Verifica que la fecha y hora estén dentro del **horario del médico**.
-  4. Verifica que ni el médico ni el paciente tengan otra cita a esa hora.
-- Si un servicio está caído, responde **503** con un mensaje claro.
-- `GET /api/citas/{id}/detalle` devuelve la cita junto con los datos del paciente y del médico.
-- Estados y transiciones permitidas:
-  - PROGRAMADA → CONFIRMADA o CANCELADA
-  - CONFIRMADA → ATENDIDA o CANCELADA
-  - ATENDIDA y CANCELADA son estados finales.
-- `PUT /api/citas/{id}/cancelar` cancela la cita.
-- `POST /api/citas/{id}/atencion` registra la **atención** (diagnóstico, tratamiento y observaciones) de una cita CONFIRMADA y la pasa a ATENDIDA.
+### Validaciones
+- **Pedido:** `clienteId` y `productoId` obligatorios; `cantidad` mayor a cero.
+- **Cliente:** nombre, apellidos, dirección, estado y `nroDni` obligatorios; el DNI debe tener exactamente 8 dígitos.
+- **Producto:** nombre obligatorio y precio mayor a cero.
 
-> Las tablas `cita` y `atencion` guardan `id_paciente` e `id_medico` **sin FOREIGN KEY física**. En microservicios cada servicio tiene su propia base de datos, así que la integridad se valida llamando a los otros servicios.
+Ejemplo de `GET /api/pedidos/1`:
+```json
+{
+  "id": 1,
+  "fecha": "2026-11-13",
+  "cantidad": 2,
+  "estado": "PENDIENTE",
+  "total": 5000.0,
+  "cliente": { "id": 1, "nombre": "Carlos", "apellidos": "Ramirez", "nroDni": "45678912", "...": "..." },
+  "producto": { "id": 1, "nombre": "Laptop", "precio": 2500.0, "stock": 10 }
+}
+```
 
-## Conclusiones
+## Lab 11 – Creación de microservicios
 
-1. La arquitectura de microservicios divide el sistema en servicios pequeños e independientes. Cada uno tiene su propia base de datos y su propio puerto, así que se puede desarrollar, desplegar y escalar por separado.
-2. Separar las capas (controller, service, repository, model, dto) y usar DTOs con Bean Validation (`@NotBlank`, `@Pattern`, `@Email`) desacopla la API de las entidades JPA y evita que entren datos inválidos.
-3. Un `@RestControllerAdvice` centraliza el manejo de errores y devuelve respuestas uniformes (400, 404, 409, 503), lo que facilita el consumo de la API desde Postman o un frontend.
-4. Como cada microservicio tiene su base de datos, no se pueden usar FOREIGN KEY entre servicios. Las relaciones se guardan como IDs y se validan con comunicación REST (`RestClient`), como hace cita-service con paciente-service y medico-service.
-5. Los archivos YAML con perfiles (`dev` y `prod`) permiten cambiar la base de datos, el puerto y otras propiedades según el ambiente sin modificar el código; basta con cambiar `spring.profiles.active`.
+- **Tienda:** CRUD de categoría, cliente y producto con DTO, Bean Validation, `GlobalExceptionHandler` y configuración YAML con perfiles.
+- **Clínica "Salud Integral":**
+  - **paciente-service:** CRUD de pacientes.
+  - **medico-service:** médicos, especialidades y horarios.
+  - **cita-service:** registro y estados de citas, y atención. Valida paciente, médico y horario con `RestClient`.
+
+## Conclusiones – Lab 12
+
+1. **Eureka** actúa como directorio de servicios. Cada microservicio se registra con su nombre y los demás lo encuentran sin conocer su IP ni su puerto, lo que facilita escalar y mover servicios.
+2. **OpenFeign** permite consumir otro microservicio declarando solo una interfaz con anotaciones, con mucho menos código que hacer las peticiones HTTP a mano.
+3. Cada servicio guarda **solo los identificadores** de los datos de otros servicios y completa la información en tiempo real con Feign. Así se evita duplicar datos y se respeta la regla de no compartir bases de datos.
+4. Los campos `@Transient` y los DTOs de respuesta permiten devolver información combinada de varios servicios sin crear relaciones JPA entre ellos.
+5. La comunicación entre servicios necesita manejar fallos (servicio caído, registro inexistente). Responder con códigos claros (404, 503) y validar los datos antes de guardar hace al sistema más robusto. También es importante que las versiones de Spring Boot y Spring Cloud sean compatibles.
+
+## Conclusiones – Lab 11
+
+1. La arquitectura de microservicios divide el sistema en servicios pequeños e independientes, cada uno con su propia base de datos y puerto.
+2. Separar las capas y usar DTOs con Bean Validation desacopla la API de las entidades JPA y evita datos inválidos.
+3. `@RestControllerAdvice` centraliza el manejo de errores con respuestas uniformes.
+4. Sin FOREIGN KEY entre servicios, las relaciones se validan con comunicación REST.
+5. Los perfiles YAML (`dev` y `prod`) cambian la configuración según el ambiente sin modificar el código.

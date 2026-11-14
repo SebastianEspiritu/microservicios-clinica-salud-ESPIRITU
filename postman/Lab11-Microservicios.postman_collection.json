@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Lab 11 - Microservicios",
+    "name": "Lab 11 y 12 - Microservicios",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1198,6 +1198,373 @@
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"estado\": \"PENDIENTE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lab 12 - Eureka + OpenFeign",
+      "item": [
+        {
+          "name": "1. Categoría (8082)",
+          "item": [
+            {
+              "name": "POST Tecnología",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Tecnología\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8082/api/categorias"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. Producto (8083) - Feign a categoría",
+          "item": [
+            {
+              "name": "POST Laptop",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Laptop\",\n  \"precio\": 2500,\n  \"stock\": 10,\n  \"categoriaId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET por id (incluye categoría)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8083/api/productos/1"
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8083/api/productos"
+              }
+            },
+            {
+              "name": "POST categoría inexistente (error 404)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Monitor\",\n  \"precio\": 800,\n  \"stock\": 5,\n  \"categoriaId\": 999\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"\",\n  \"precio\": 0,\n  \"stock\": 1,\n  \"categoriaId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Cliente (8081)",
+          "item": [
+            {
+              "name": "POST Carlos",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Carlos\",\n  \"apellidos\": \"Ramirez\",\n  \"direccion\": \"Av. Arequipa 1520, Lima\",\n  \"telefono\": \"987654321\",\n  \"nroDni\": \"45678912\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8081/api/clientes/1"
+              }
+            },
+            {
+              "name": "POST validación DNI (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Ana\",\n  \"apellidos\": \"Torres\",\n  \"direccion\": \"\",\n  \"nroDni\": \"1234567\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Pedido (8084) - Feign a cliente y producto",
+          "item": [
+            {
+              "name": "POST pedido 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clienteId\": 1,\n  \"productoId\": 1,\n  \"cantidad\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET por id (pedido + cliente + producto)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos/1"
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos"
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cantidad\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST cliente inexistente (error 404)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clienteId\": 999,\n  \"productoId\": 1,\n  \"cantidad\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST stock insuficiente (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clienteId\": 1,\n  \"productoId\": 1,\n  \"cantidad\": 500\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "PUT estado ATENDIDO",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos/1/estado",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"ATENDIDO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST pedido 2 (para anular)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clienteId\": 1,\n  \"productoId\": 1,\n  \"cantidad\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "PUT anular pedido 2",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos/2/anular"
+              }
+            },
+            {
+              "name": "PUT cambio no permitido (error 400)",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos/2/estado",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"ATENDIDO\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"

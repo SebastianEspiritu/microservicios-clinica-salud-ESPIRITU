@@ -1,8 +1,13 @@
 package com.tecsup.controller;
 
-import com.tecsup.model.Pedido;
+import com.tecsup.dto.EstadoDTO;
+import com.tecsup.dto.PedidoDTO;
+import com.tecsup.dto.PedidoResponseDTO;
 import com.tecsup.services.PedidoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +20,31 @@ public class PedidoController {
     private PedidoService service;
 
     @GetMapping
-    public List<Pedido> listar() {
-        return service.listar();
+    public ResponseEntity<List<PedidoResponseDTO>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
+    // Pedido + cliente + producto (comunicación con Feign)
     @GetMapping("/{id}")
-    public Pedido buscar(@PathVariable Long id) {
-        return service.buscarPorId(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Pedido no encontrado"));
+    public ResponseEntity<PedidoResponseDTO> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(service.obtener(id));
     }
 
     @PostMapping
-    public Pedido guardar(@RequestBody Pedido pedido) {
-        return service.guardar(pedido);
+    public ResponseEntity<PedidoResponseDTO> registrar(@Valid @RequestBody PedidoDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.registrar(dto));
     }
 
-    @PutMapping("/{id}")
-    public Pedido actualizar(
-            @PathVariable Long id,
-            @RequestBody Pedido pedido) {
-        return service.actualizar(id, pedido);
+    // Cambiar estado: PENDIENTE -> ATENDIDO | ANULADO
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<PedidoResponseDTO> cambiarEstado(@PathVariable Long id,
+                                                           @Valid @RequestBody EstadoDTO dto) {
+        return ResponseEntity.ok(service.cambiarEstado(id, dto.getEstado()));
     }
 
-    @DeleteMapping("/{id}")
-    public String eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-        return "Pedido eliminado correctamente";
+    // El pedido no se elimina: se anula
+    @PutMapping("/{id}/anular")
+    public ResponseEntity<PedidoResponseDTO> anular(@PathVariable Long id) {
+        return ResponseEntity.ok(service.anular(id));
     }
 }
