@@ -1,0 +1,1214 @@
+{
+  "info": {
+    "name": "Lab 11 - Microservicios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Parte guiada - Tienda",
+      "item": [
+        {
+          "name": "Cliente (8081)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellidos\": \"Pérez Gómez\",\n  \"direccion\": \"Av. Javier Prado 123, Lima\",\n  \"telefono\": \"987654321\",\n  \"nroDni\": \"12345678\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"María\",\n  \"apellidos\": \"Ramírez Torres\",\n  \"direccion\": \"Calle Los Olivos 456\",\n  \"telefono\": \"912345678\",\n  \"nroDni\": \"87654321\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8081/api/clientes"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8081/api/clientes/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellidos\": \"Pérez Gómez\",\n  \"direccion\": \"Av. Javier Prado 123, Lima\",\n  \"telefono\": \"999888777\",\n  \"nroDni\": \"12345678\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8081/api/clientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"\",\n  \"nroDni\": \"123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "DELETE",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:8081/api/clientes/2"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Categoría (8082 - perfil dev)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Laptops\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Accesorios\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 3",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Impresoras\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8082/api/categorias"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8082/api/categorias/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Laptops Gamer\",\n  \"estado\": \"ACTIVO\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8082/api/categorias",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET no existe (error 404)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8082/api/categorias/999"
+              }
+            },
+            {
+              "name": "DELETE",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:8082/api/categorias/3"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Producto (8083)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Laptop Lenovo ThinkPad\",\n  \"precio\": 3500.0,\n  \"stock\": 15,\n  \"categoriaId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Mouse Logitech M185\",\n  \"precio\": 89.9,\n  \"stock\": 50,\n  \"categoriaId\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 3",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Teclado Mecánico Redragon\",\n  \"precio\": 199.99,\n  \"stock\": 25,\n  \"categoriaId\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8083/api/productos"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8083/api/productos/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Laptop Lenovo ThinkPad\",\n  \"precio\": 3500.0,\n  \"stock\": 10,\n  \"categoriaId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8083/api/productos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"X\",\n  \"precio\": -5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "DELETE",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:8083/api/productos/3"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Pedido (8084)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-06-10\",\n  \"idCliente\": 1,\n  \"total\": 3679.8,\n  \"detalles\": [\n    {\n      \"idProducto\": 1,\n      \"cantidad\": 1,\n      \"precio\": 3500.0\n    },\n    {\n      \"idProducto\": 2,\n      \"cantidad\": 2,\n      \"precio\": 89.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-06-10\",\n  \"idCliente\": 2,\n  \"total\": 579.78,\n  \"detalles\": [\n    {\n      \"idProducto\": 2,\n      \"cantidad\": 2,\n      \"precio\": 89.9\n    },\n    {\n      \"idProducto\": 3,\n      \"cantidad\": 2,\n      \"precio\": 199.99\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8084/api/pedidos/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-06-11\",\n  \"idCliente\": 1,\n  \"total\": 3500.0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "DELETE",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:8084/api/pedidos/2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Actividad - Clínica Salud Integral",
+      "item": [
+        {
+          "name": "1. Paciente (8085)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"45678912\",\n  \"nombres\": \"Carlos\",\n  \"apellidos\": \"Mendoza Ríos\",\n  \"fechaNacimiento\": \"1990-05-14\",\n  \"sexo\": \"M\",\n  \"telefono\": \"987111222\",\n  \"direccion\": \"Av. Arequipa 1520, Lima\",\n  \"correo\": \"carlos.mendoza@gmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"74125896\",\n  \"nombres\": \"Lucía\",\n  \"apellidos\": \"Fernández Soto\",\n  \"fechaNacimiento\": \"1998-11-02\",\n  \"sexo\": \"F\",\n  \"telefono\": \"956333444\",\n  \"direccion\": \"Jr. Huancavelica 320, Lima\",\n  \"correo\": \"lucia.fernandez@gmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8085/api/pacientes"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8085/api/pacientes/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"45678912\",\n  \"nombres\": \"Carlos\",\n  \"apellidos\": \"Mendoza Ríos\",\n  \"fechaNacimiento\": \"1990-05-14\",\n  \"sexo\": \"M\",\n  \"telefono\": \"999000111\",\n  \"direccion\": \"Av. Arequipa 1520, Lima\",\n  \"correo\": \"carlos.mendoza@gmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST DNI duplicado (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"45678912\",\n  \"nombres\": \"Carlos\",\n  \"apellidos\": \"Mendoza Ríos\",\n  \"fechaNacimiento\": \"1990-05-14\",\n  \"sexo\": \"M\",\n  \"telefono\": \"987111222\",\n  \"direccion\": \"Av. Arequipa 1520, Lima\",\n  \"correo\": \"carlos.mendoza@gmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST validación (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"12\",\n  \"nombres\": \"\",\n  \"sexo\": \"X\",\n  \"correo\": \"malcorreo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 3 (para eliminar)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8085/api/pacientes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dni\": \"11223344\",\n  \"nombres\": \"Pedro\",\n  \"apellidos\": \"Prueba Borrar\",\n  \"sexo\": \"M\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "DELETE paciente 3",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:8085/api/pacientes/3"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. Especialidad (8086)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/especialidades",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Cardiología\",\n  \"descripcion\": \"Enfermedades del corazón\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/especialidades",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Pediatría\",\n  \"descripcion\": \"Atención de niños\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/especialidades"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/especialidades/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/especialidades/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Cardiología\",\n  \"descripcion\": \"Corazón y sistema circulatorio\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Médico (8086)",
+          "item": [
+            {
+              "name": "POST 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cmp\": \"CMP-045123\",\n  \"nombres\": \"Ana\",\n  \"apellidos\": \"Quispe Huamán\",\n  \"telefono\": \"987654000\",\n  \"correo\": \"ana.quispe@saludintegral.pe\",\n  \"idEspecialidad\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cmp\": \"CMP-078456\",\n  \"nombres\": \"Jorge\",\n  \"apellidos\": \"Salazar Vega\",\n  \"telefono\": \"912000333\",\n  \"correo\": \"jorge.salazar@saludintegral.pe\",\n  \"idEspecialidad\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/medicos"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/medicos/1"
+              }
+            },
+            {
+              "name": "PUT actualizar",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cmp\": \"CMP-045123\",\n  \"nombres\": \"Ana María\",\n  \"apellidos\": \"Quispe Huamán\",\n  \"telefono\": \"987654000\",\n  \"correo\": \"ana.quispe@saludintegral.pe\",\n  \"idEspecialidad\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET por especialidad",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/medicos/especialidad/1"
+              }
+            },
+            {
+              "name": "POST horario médico 1 (LUNES)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos/1/horarios",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"diaSemana\": \"LUNES\",\n  \"horaInicio\": \"08:00\",\n  \"horaFin\": \"13:00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST horario médico 2 (MIERCOLES)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos/2/horarios",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"diaSemana\": \"MIERCOLES\",\n  \"horaInicio\": \"14:00\",\n  \"horaFin\": \"19:00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST horario que se cruza (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8086/api/medicos/1/horarios",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"diaSemana\": \"LUNES\",\n  \"horaInicio\": \"12:00\",\n  \"horaFin\": \"15:00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET horarios médico 1",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8086/api/medicos/1/horarios"
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Cita (8087)",
+          "item": [
+            {
+              "name": "POST cita 1 (lunes 09:00, médico 1)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-07\",\n  \"hora\": \"09:00\",\n  \"idPaciente\": 1,\n  \"idMedico\": 1,\n  \"motivo\": \"Dolor en el pecho\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST cita 2 (miércoles 15:00, médico 2)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-09\",\n  \"hora\": \"15:00\",\n  \"idPaciente\": 2,\n  \"idMedico\": 2,\n  \"motivo\": \"Control pediátrico\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST cita 3 (para cancelar)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-07\",\n  \"hora\": \"10:00\",\n  \"idPaciente\": 2,\n  \"idMedico\": 1,\n  \"motivo\": \"Chequeo general\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST fuera de horario (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-08\",\n  \"hora\": \"09:00\",\n  \"idPaciente\": 1,\n  \"idMedico\": 1,\n  \"motivo\": \"Martes no atiende\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST misma hora ocupada (error 400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-07\",\n  \"hora\": \"09:00\",\n  \"idPaciente\": 2,\n  \"idMedico\": 1,\n  \"motivo\": \"Cruce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST paciente inexistente (error 404)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha\": \"2026-12-07\",\n  \"hora\": \"11:00\",\n  \"idPaciente\": 999,\n  \"idMedico\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET listar",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas"
+              }
+            },
+            {
+              "name": "GET filtrar por estado",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas?estado=PROGRAMADA"
+              }
+            },
+            {
+              "name": "GET filtrar por paciente",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas?idPaciente=2"
+              }
+            },
+            {
+              "name": "GET por id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas/1"
+              }
+            },
+            {
+              "name": "GET detalle (paciente + médico)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas/1/detalle"
+              }
+            },
+            {
+              "name": "PUT estado CONFIRMADA",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas/1/estado",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"CONFIRMADA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "POST registrar atención (pasa a ATENDIDA)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas/1/atencion",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"diagnostico\": \"Hipertensión arterial leve\",\n  \"tratamiento\": \"Losartán 50 mg cada 24 h\",\n  \"observaciones\": \"Control en 30 días\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "GET atención de la cita",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8087/api/citas/1/atencion"
+              }
+            },
+            {
+              "name": "PUT cancelar cita 3",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": "http://localhost:8087/api/citas/3/cancelar"
+              }
+            },
+            {
+              "name": "PUT cambio no permitido (error 400)",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas/3/estado",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"CONFIRMADA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "name": "PUT estado inválido (error 400)",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8087/api/citas/2/estado",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"PENDIENTE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
